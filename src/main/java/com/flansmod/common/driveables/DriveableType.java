@@ -213,7 +213,7 @@ public class DriveableType extends InfoType
 			}
 			
 			//Passengers / Gunner Seats
-			if(split[0].equals("Passenger"))
+			if(split[0].toLowerCase().equals("passenger") || split[0].toLowerCase().equals("seat"))
 			{
 				Seat seat = new Seat(split);
 				seats[seat.id] = seat;
@@ -319,5 +319,16 @@ public class DriveableType extends InfoType
 				return type;
 		}
 		return null;
+	}
+
+	@Override
+	public void reloadModel() 
+	{
+		model = FlansMod.proxy.loadModel(modelString, shortName, ModelDriveable.class);
+	}
+
+	public boolean hasEngine() 
+	{
+		return true;
 	}
 }

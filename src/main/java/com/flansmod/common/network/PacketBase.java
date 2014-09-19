@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 /** Base class for all packets in Flan's Mod. */
 public abstract class PacketBase 
-{
+{	
 	/** Encode the packet into a ByteBuf stream. Advanced data handlers can be found at @link{cpw.mods.fml.common.network.ByteBufUtils} */
 	public abstract void encodeInto(ChannelHandlerContext ctx, ByteBuf data);
 

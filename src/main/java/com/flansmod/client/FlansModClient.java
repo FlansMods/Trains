@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -22,6 +23,7 @@ import com.flansmod.api.IControllable;
 import com.flansmod.client.gui.GuiDriveableController;
 import com.flansmod.client.gui.GuiTeamScores;
 import com.flansmod.client.model.GunAnimations;
+import com.flansmod.client.trains.TrackRenderer;
 import com.flansmod.common.FlansMod;
 import com.flansmod.common.driveables.EntitySeat;
 import com.flansmod.common.guns.GunType;
@@ -87,6 +89,8 @@ public class FlansModClient extends FlansMod
 	{		
 		log("Loading Flan's mod client side.");
 		MinecraftForge.EVENT_BUS.register(this);
+
+		MinecraftForgeClient.registerItemRenderer(FlansMod.trackItem, new TrackRenderer());
 	}
 		
 	@SubscribeEvent

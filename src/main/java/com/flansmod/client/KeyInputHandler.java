@@ -8,6 +8,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.input.Keyboard;
@@ -21,6 +22,7 @@ import com.flansmod.common.driveables.EntitySeat;
 import com.flansmod.common.guns.GunType;
 import com.flansmod.common.guns.ItemGun;
 import com.flansmod.common.network.PacketReload;
+import com.flansmod.common.trains.ItemTrack;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -132,7 +134,15 @@ public class KeyInputHandler
 		}
 		if(reloadKey.isPressed() && FlansModClient.shootTime <= 0)
 		{
-			FlansMod.getPacketHandler().sendToServer(new PacketReload());
+			ItemStack currentItemstack = player.getCurrentEquippedItem();
+			if(currentItemstack != null)
+			{
+				Item currentItem = currentItemstack.getItem();
+				if(currentItem instanceof ItemGun)
+					FlansMod.getPacketHandler().sendToServer(new PacketReload());
+				if(currentItem instanceof ItemTrack)
+					((ItemTrack)currentItem).rotateCurrentRail(player, mc.gameSettings.keyBindSneak.getIsKeyPressed());
+			}
 			return;
 		}
 		if(debugKey.isPressed())

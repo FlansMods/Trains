@@ -44,7 +44,8 @@ public class DriveableData implements IInventory
 		numBombs = dType.numBombSlots;
 		numCargo = dType.numCargoSlots;
 		numGuns = dType.numPassengerGunners + dType.guns.size();
-		engine = PartType.getPart(tag.getString("Engine"));
+		if(dType.hasEngine())
+			engine = PartType.getPart(tag.getString("Engine"));
 		ammo = new ItemStack[numGuns];
 		bombs = new ItemStack[numBombs];
 		cargo = new ItemStack[numCargo];
@@ -75,7 +76,8 @@ public class DriveableData implements IInventory
     public void writeToNBT(NBTTagCompound tag)
     {
 		tag.setString("Type", type);
-		tag.setString("Engine", engine.shortName);
+		if(DriveableType.getDriveable(type).hasEngine())
+			tag.setString("Engine", engine.shortName);
 		for(int i = 0; i < ammo.length; i++)
 		{
 			if(ammo[i] != null)

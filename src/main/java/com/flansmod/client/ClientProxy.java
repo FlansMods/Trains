@@ -31,6 +31,7 @@ import com.flansmod.client.gui.GuiGunModTable;
 import com.flansmod.client.gui.GuiMechaInventory;
 import com.flansmod.client.model.RenderAAGun;
 import com.flansmod.client.model.RenderBullet;
+import com.flansmod.client.model.RenderCoach;
 import com.flansmod.client.model.RenderFlag;
 import com.flansmod.client.model.RenderFlagpole;
 import com.flansmod.client.model.RenderGrenade;
@@ -41,6 +42,7 @@ import com.flansmod.client.model.RenderNull;
 import com.flansmod.client.model.RenderParachute;
 import com.flansmod.client.model.RenderPlane;
 import com.flansmod.client.model.RenderVehicle;
+import com.flansmod.client.trains.TileEntitySwitchRenderer;
 import com.flansmod.common.CommonProxy;
 import com.flansmod.common.FlansMod;
 import com.flansmod.common.driveables.DriveablePart;
@@ -65,6 +67,9 @@ import com.flansmod.common.teams.EntityFlag;
 import com.flansmod.common.teams.EntityFlagpole;
 import com.flansmod.common.teams.TileEntitySpawner;
 import com.flansmod.common.tools.EntityParachute;
+import com.flansmod.common.trains.BlockTrackSwitch;
+import com.flansmod.common.trains.EntityCoach;
+import com.flansmod.common.trains.TileEntitySwitch;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -161,9 +166,12 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityParachute.class, new RenderParachute());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDebugVector.class, new RenderDebugVector());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDebugAABB.class, new RenderDebugAABB());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMecha.class, new RenderMecha());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMecha.class, new RenderMecha());		
+		RenderingRegistry.registerEntityRenderingHandler(EntityCoach.class, new RenderCoach());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpawner.class, new TileEntitySpawnerRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySwitch.class, new TileEntitySwitchRenderer());
+		//RenderingRegistry.registerBlockHandler(BlockTrackSwitch.RENDERID, new BlockSwitchRenderer());
 	}
 	
 	@Override

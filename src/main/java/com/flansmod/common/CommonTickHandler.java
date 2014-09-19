@@ -46,6 +46,7 @@ public class CommonTickHandler
 		{
 			TeamsManager.getInstance().tick();
 			FlansMod.playerHandler.tick();
+			FlansMod.trainHandler.tick();
 			FlansMod.ticker++;
 			break;
 		}		

@@ -11,6 +11,7 @@ import com.flansmod.common.types.TypeFile;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
 import com.flansmod.common.guns.ItemGun;
 
 public class PlayerClass extends InfoType
@@ -104,5 +105,10 @@ public class PlayerClass extends InfoType
 				return playerClass;
 		}
 		return null;
+	}
+	
+	@Override
+	public void reloadModel() 
+	{
 	}
 }

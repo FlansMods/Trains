@@ -18,16 +18,28 @@ import com.flansmod.common.teams.ArmourType;
 import com.flansmod.common.teams.PlayerClass;
 import com.flansmod.common.teams.Team;
 import com.flansmod.common.tools.ToolType;
+import com.flansmod.common.trains.CoachType;
+import com.flansmod.common.trains.SwitchType;
+import com.flansmod.common.trains.TrackPiece;
 
 public enum EnumType 
 {
-	part("parts"), bullet("bullets"), attachment("attachments"), gun("guns"), aa("aaguns"), vehicle("vehicles"), plane("planes"), mechaItem("mechaItems"), mecha("mechas"), grenade("grenades"), tool("tools"), armour("armorFiles"), playerClass("classes"), team("teams"), box("boxes");
+	part("parts", PartType.class), 
+	bullet("bullets", BulletType.class), attachment("attachments", AttachmentType.class), gun("guns", GunType.class),
+	aa("aaguns", AAGunType.class), vehicle("vehicles", VehicleType.class), plane("planes", PlaneType.class),
+	mechaItem("mechaItems", MechaItemType.class), mecha("mechas", MechaType.class),
+	grenade("grenades", GrenadeType.class), tool("tools", ToolType.class),
+	armour("armorFiles", ArmourType.class), playerClass("classes", PlayerClass.class), team("teams", Team.class),
+	box("boxes", GunBoxType.class),
+	track("tracks", TrackPiece.class), trackSwitch("switches", SwitchType.class), coach("coaches", CoachType.class);
 	
 	public String folderName;
+	private Class<? extends InfoType> typeClass;
 	
-	private EnumType(String s)
+	private EnumType(String s, Class<? extends InfoType> typeClass)
 	{
 		folderName = s;
+		this.typeClass = typeClass;
 	}
 	
 	public static EnumType get(String s)
@@ -42,25 +54,7 @@ public enum EnumType
 	
 	public Class<? extends InfoType> getTypeClass()
 	{
-		switch(this)
-		{
-		case bullet : 		return BulletType.class;
-		case aa : 			return AAGunType.class;
-		case vehicle :		return VehicleType.class;
-		case plane : 		return PlaneType.class;
-		case mechaItem : 	return MechaItemType.class;
-		case mecha : 		return MechaType.class;
-		case attachment : 	return AttachmentType.class;
-		case gun : 			return GunType.class;
-		case grenade : 		return GrenadeType.class;
-		case tool :			return ToolType.class;
-		case armour : 		return ArmourType.class;
-		case playerClass :	return PlayerClass.class;
-		case team :			return Team.class;
-		case box :			return GunBoxType.class;
-		case part :			return PartType.class;
-		default : 		return InfoType.class;
-		}
+		return typeClass;
 	}
 
 	public static EnumType getFromObject(Object o)

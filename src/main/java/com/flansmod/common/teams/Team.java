@@ -231,4 +231,9 @@ public class Team extends InfoType
 		}
 		
 	}
+	
+	@Override
+	public void reloadModel() 
+	{
+	}
 }

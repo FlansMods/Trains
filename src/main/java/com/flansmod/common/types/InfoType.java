@@ -11,7 +11,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import com.flansmod.common.FlansMod;
 
-public class InfoType
+public abstract class InfoType
 {
 	/** infoTypes */
 	public static List<InfoType> infoTypes = new ArrayList<InfoType>();
@@ -39,6 +39,12 @@ public class InfoType
 		infoTypes.add(this);
 	}
 	
+	public InfoType(String s) 
+	{
+		contentPack = s;
+		infoTypes.add(this);
+	}
+
 	public void read(TypeFile file)
 	{
 		for(;;)
@@ -50,8 +56,8 @@ public class InfoType
 			if(line.startsWith("//"))
 				continue;
 			String[] split = line.split(" ");
-			if(split.length < 2)
-				continue;
+			//if(split.length < 2)
+			//	continue;
 			read(split, file);
 		}
 	}
@@ -298,10 +304,7 @@ public class InfoType
 	}
 	
 	/** To be overriden by subtypes for model reloading */
-	public void reloadModel()
-	{
-		
-	}
+	public abstract void reloadModel();
 	
 	public static InfoType getType(String s)
 	{

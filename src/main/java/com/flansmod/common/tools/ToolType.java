@@ -2,6 +2,7 @@ package com.flansmod.common.tools;
 
 import java.util.ArrayList;
 
+import com.flansmod.client.model.ModelVehicle;
 import com.flansmod.common.FlansMod;
 import com.flansmod.common.types.InfoType;
 import com.flansmod.common.types.TypeFile;
@@ -110,5 +111,11 @@ public class ToolType extends InfoType
 				return type;
 		}
 		return null;
+	}
+	
+	@Override
+	public void reloadModel() 
+	{
+		model = FlansMod.proxy.loadModel(modelString, shortName, ModelBase.class);
 	}
 }

@@ -51,4 +51,9 @@ public class ArmourType extends InfoType
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void reloadModel() 
+	{
+	}
 }

@@ -142,4 +142,9 @@ public class PartType extends InfoType {
 			return 10;
 		return 10;
 	}
+	
+	@Override
+	public void reloadModel() 
+	{
+	}
 }

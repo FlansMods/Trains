@@ -14,6 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.init.Items;
@@ -69,6 +70,17 @@ import com.flansmod.common.teams.TileEntitySpawner;
 import com.flansmod.common.tools.EntityParachute;
 import com.flansmod.common.tools.ItemTool;
 import com.flansmod.common.tools.ToolType;
+import com.flansmod.common.trains.BlockBedding;
+import com.flansmod.common.trains.BlockRail;
+import com.flansmod.common.trains.BlockTrackSwitch;
+import com.flansmod.common.trains.CoachType;
+import com.flansmod.common.trains.EntityCoach;
+import com.flansmod.common.trains.ItemCoach;
+import com.flansmod.common.trains.ItemRailBlock;
+import com.flansmod.common.trains.ItemTrack;
+import com.flansmod.common.trains.SwitchType;
+import com.flansmod.common.trains.TileEntitySwitch;
+import com.flansmod.common.trains.TrainHandler;
 import com.flansmod.common.types.EnumType;
 import com.flansmod.common.types.InfoType;
 import com.flansmod.common.types.TypeFile;
@@ -114,6 +126,7 @@ public class FlansMod
 	public static final PlayerHandler playerHandler = new PlayerHandler();
 	public static final TeamsManager teamsManager = new TeamsManager();
 	public static final CommonTickHandler tickHandler = new CommonTickHandler();
+	public static final TrainHandler trainHandler = new TrainHandler();
 	public static FlansHooks hooks = new FlansHooks();
 	
 	//Items and creative tabs
@@ -121,6 +134,12 @@ public class FlansMod
 	public static BlockSpawner spawner;
 	public static ItemOpStick opStick;
 	public static ItemFlagpole flag;
+	//Trains
+	public static BlockBedding beddingBlock;
+	public static BlockRail railBlock;
+	public static Item trackItem;
+	public static ArrayList<BlockTrackSwitch> trackSwitchBlocks = new ArrayList<BlockTrackSwitch>();
+	public static ArrayList<ItemCoach> coachItems = new ArrayList<ItemCoach>();
 	public static ArrayList<BlockGunBox> gunBoxBlocks = new ArrayList<BlockGunBox>();
 	public static ArrayList<ItemBullet> bulletItems = new ArrayList<ItemBullet>();
 	public static ArrayList<ItemGun> gunItems = new ArrayList<ItemGun>();
@@ -135,7 +154,7 @@ public class FlansMod
 	public static ArrayList<ItemTool> toolItems = new ArrayList<ItemTool>();
 	public static ArrayList<ItemTeamArmour> armourItems = new ArrayList<ItemTeamArmour>();
 	public static CreativeTabFlan tabFlanGuns = new CreativeTabFlan(0), tabFlanDriveables = new CreativeTabFlan(1),
-			tabFlanParts = new CreativeTabFlan(2), tabFlanTeams = new CreativeTabFlan(3), tabFlanMechas = new CreativeTabFlan(4);
+			tabFlanParts = new CreativeTabFlan(2), tabFlanTeams = new CreativeTabFlan(3), tabFlanMechas = new CreativeTabFlan(4), tabFlanTrains = new CreativeTabFlan(5);
 	
 	/** The mod pre-initialiser method */
 	@EventHandler
@@ -168,7 +187,15 @@ public class FlansMod
 		GameRegistry.registerItem(flag, "flagpole", MODID);
 		spawner = (BlockSpawner)(new BlockSpawner(Material.iron).setBlockName("teamsSpawner").setBlockUnbreakable().setResistance(1000000F));
 		GameRegistry.registerBlock(spawner, ItemBlockManyNames.class, "teamsSpawner");
-		GameRegistry.registerTileEntity(TileEntitySpawner.class, "teamsSpawner");
+		GameRegistry.registerTileEntity(TileEntitySpawner.class, "teamsSpawner");	
+		//Trains
+		beddingBlock = (BlockBedding)(new BlockBedding().setBlockName("beddingBlock"));
+		GameRegistry.registerBlock(beddingBlock, ItemRailBlock.class, "beddingBlock");
+		railBlock = (BlockRail)(new BlockRail().setBlockName("railBlock"));
+		GameRegistry.registerBlock(railBlock, "railBlock");
+		trackItem = new ItemTrack();
+		GameRegistry.registerItem(trackItem, "trackItem", MODID);
+		GameRegistry.registerTileEntity(TileEntitySwitch.class, "trackSwitch");	
 		
 		proxy.registerRenderers();
 		
@@ -221,6 +248,8 @@ public class FlansMod
 		EntityRegistry.registerModEntity(EntityParachute.class, "Parachute", 101, this, 40, 20, false);
 		EntityRegistry.registerGlobalEntityID(EntityMecha.class, "Mecha", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityMecha.class, "Mecha", 102, this, 250, 20, false);
+		//EntityRegistry.registerGlobalEntityID(EntityCoach.class, "Coach", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityCoach.class, "Coach", 103, this, 250, 20, false);
 		
 		//Register bullets and grenades
 		//EntityRegistry.registerGlobalEntityID(EntityBullet.class, "Bullet", EntityRegistry.findGlobalUniqueEntityId());
@@ -422,6 +451,9 @@ public class FlansMod
 					case armour : armourItems.add((ItemTeamArmour)new ItemTeamArmour((ArmourType)infoType).setUnlocalizedName(infoType.shortName)); break;
 					case playerClass : break;
 					case team : break;
+					case track : break;
+					case trackSwitch : trackSwitchBlocks.add((BlockTrackSwitch)(new BlockTrackSwitch((SwitchType)infoType).setBlockName(infoType.shortName))); break;
+					case coach : coachItems.add((ItemCoach)new ItemCoach((CoachType)infoType).setUnlocalizedName(infoType.shortName)); break;
 					default : log("Unrecognised type."); break;
 					}
 				}
@@ -431,7 +463,7 @@ public class FlansMod
 					e.printStackTrace();
 				}
 			}
-			log("Loaded " + type.name() + ".");
+			log("Loaded " + type.folderName + ".");
 		}		
 		Team.spectators = spectators;
 	}

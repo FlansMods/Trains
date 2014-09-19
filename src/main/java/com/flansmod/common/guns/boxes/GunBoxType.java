@@ -275,4 +275,9 @@ public class GunBoxType extends InfoType
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void reloadModel() 
+	{
+	}
 }

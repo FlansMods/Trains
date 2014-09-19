@@ -6,6 +6,8 @@ import com.flansmod.common.guns.EntityGrenade;
 import com.flansmod.common.guns.EntityMG;
 import com.flansmod.common.teams.PlayerClass;
 import com.flansmod.common.teams.Team;
+import com.flansmod.common.trains.Track;
+import com.flansmod.common.trains.Train;
 
 public class PlayerData 
 {
@@ -27,6 +29,11 @@ public class PlayerData
 	
 	/** When remote explosives are thrown they are added to this list. When the player uses a remote, the first one from this list detonates */
 	public ArrayList<EntityGrenade> remoteExplosives = new ArrayList<EntityGrenade>();
+	
+	/** Tracks what track the player is tracking */
+	public ArrayList<Track> trackedTrack = new ArrayList<Track>();
+	/** Tracks what trains the player is tracking */
+	public ArrayList<Train> trackedTrains = new ArrayList<Train>();
 	
 	//For use by the currentGametype
 	public int score;
